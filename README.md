@@ -1,12 +1,11 @@
 # FreeVaxSessionMonitor
 Exe runs on windows. For Linux/Mac you need to build by installing GO first.(I might upload exe for Linux tomorrow, not sure of MAC though. If anybody could help in doing that for Mac?) 
 
-This program monitors the free sessions available by pincode or district wise. More details on how to un below. District code need to be taken. This program generates beep only for
-         1) 18+ session is open
-         2) session must have capacity of does greater than 9
+This program monitors the free sessions available by pincode or district wise. More details on how to run, are below. District code need to be taken. This program generates beep only for
+         1) Vaccine session is available for given age. Default is 18+ but you can give option as 45 for 45+ search.
+         2) session must have capacity of does greater than 9. No point in booking if its less than 9.
 
-For 45+ session it prints out on screen but does NOT geneate beep. You need to change code and compile it.
-
+District codes
 pune : 363
 Kolhapur: 371
 
@@ -30,49 +29,69 @@ On windows/Linux:
      C:>**cd C:\Users\rohan_pednekar\cowin**
 3) Get Program usage details as
 
-     C:\Users\rohan_pednekar\cowin>**program.exe --help**
-     
-     flag provided but not defined: -help
+     C:\Users\rohan_pednekar\cowin>**program.exe -help**
      
      === Get Vaccination Sessions available ===
      
      Usage of program.exe:
+     -age int
+     
+          Age limit, For 45+ please give 45 and 18+ give 18. (default 18)
+        
      -beep int
      
           Time to Beep in Seconds (default 10 second)
           
      -date string
      
-          Date to look at (default **tomorrows date**)
+          Appointment Date in format DD-MM-YYYY. (default "tomorrow date")
           
      -district string
      
-          District code (default **"363"** pune)
+          District code, default is Pune's code. Check Readme.md for district code of your choice. (default "363")
           
      -pin string
      
-          Area Pincode (default "411027") if district code is given as "0" then pin code is honoured
+          Optional Area Pincode. If District code is given then this will be ignored. (default "411027")
           
      -sleep int
      
-          Sleep time in seconds before trying out (default 4)
+          Optional Area Pincode. If District code is given then this will be ignored. (default "411027")
           
 
     -help prints this usage message.
 4) Below some examples:
 e.g. 
+         
+1) For Pune with 18+, simply run
 
-     1) Search by district every 2 seconds for **tomorrows date**. For district code please see above. 363 is Pune district code.
+
+        C:\Users\rohan_pednekar\cowin>program.exe
+          
+          
+2) For Pune with 45+, run
+     
+
+         C:\Users\rohan_pednekar\cowin>program.exe -age 45
+         
+          
+3) Search by district every 2 seconds for **tomorrows date**. For district code please see above. 363 is Pune district code.
+     
  
-          C:\Users\rohan_pednekar\cowin>**program.exe -district "363" -sleep 2**
+         C:\Users\rohan_pednekar\cowin>program.exe -district "363" -sleep 2
+          
   
-     2) Search for **specific date**
+4) Search for **specific date**
+     
 
-          C:\Users\rohan_pednekar\cowin>**program.exe -district "363" -date "11-05-2021"**
+         C:\Users\rohan_pednekar\cowin>program.exe -district "363" -date "11-05-2021"
+          
   
-     3) Search by pincode for **tomorrows date**
+5) Search by pincode for **tomorrows date**
+     
 
-          C:\Users\rohan_pednekar\cowin>**program.exe -district "0" -pin "411027"**
+         C:\Users\rohan_pednekar\cowin>program.exe -district "0" -pin "411027"
+   
   
   
   
