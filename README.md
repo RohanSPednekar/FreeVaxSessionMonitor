@@ -1,10 +1,16 @@
 # FreeVaxSessionMonitor
-This program monitors the free sessions available by pincode or district wise. District code need to be taken
+Exe runs on windows. For Linux/Mac you need to build by installing GO first.(I might upload exe for Linux tomorrow, not sure of MAC though. If anybody could help in doing that for Mac?) 
+
+This program monitors the free sessions available by pincode or district wise. More details on how to un below. District code need to be taken. This program generates beep only for
+         1) 18+ session is open
+         2) session must have capacity of does greater than 9
+
+For 45+ session it prints out on screen but does NOT geneate beep. You need to change code and compile it.
 
 pune : 363
 Kolhapur: 371
 
-## To get district code:
+## To get district code other than Pune or Kolhapur:
      1) First get state code by running: https://api.demo.co-vin.in/api/v2/admin/location/states in any browser. Note down state id. For Maharshtra it is 21
      2) Then get district code using https://api.demo.co-vin.in/api/v2/admin/location/districts/21. This is for maharshtra. Change state code accordingly in thus URL
 
@@ -18,37 +24,55 @@ On windows/Linux:
 2) go build program.go
 
 ## Usage
-C:\Users\rohan_pednekar\cowin>program.exe --help
-flag provided but not defined: -helppro
-=== Get Vaccination Sessions available ===
+1) First download program.exe anywhere on your windows machine(for other OS you need to build the program). I downloaded it into "C:\Users\rohan_pednekar\cowin".
+2) Go Windows->"Type CMD". Start CMD(Command Prompt App), and got to directory where you downloaded
 
-Usage of program.exe:
-  -beep int
-        Time to Beep in Seconds (default 10 second)
-  -date string
-        Date to look at (default tomorrows date inf "09-05-2021")
-  -district string
-        District code (default "363")
-  -pin string
-        Area Pincode (default "411027") if district code is given as ) then pin code is honoured
-  -sleep int
-        Sleep time in seconds before trying out (default 4)
+     C:>**cd C:\Users\rohan_pednekar\cowin**
+3) Get Program usage details as
 
--help prints this usage message.
+     C:\Users\rohan_pednekar\cowin>**program.exe --help**
+     
+     flag provided but not defined: -help
+     
+     === Get Vaccination Sessions available ===
+     
+     Usage of program.exe:
+     -beep int
+     
+          Time to Beep in Seconds (default 10 second)
+          
+     -date string
+     
+          Date to look at (default **tomorrows date**)
+          
+     -district string
+     
+          District code (default **"363"** pune)
+          
+     -pin string
+     
+          Area Pincode (default "411027") if district code is given as "0" then pin code is honoured
+          
+     -sleep int
+     
+          Sleep time in seconds before trying out (default 4)
+          
 
+    -help prints this usage message.
+4) Below some examples:
 e.g. 
 
-1) Search by district every 2 seconds for tomorrows date
+     1) Search by district every 2 seconds for **tomorrows date**. For district code please see above. 363 is Pune district code.
  
-  program.exe -district "363" -sleep 2
+          C:\Users\rohan_pednekar\cowin>**program.exe -district "363" -sleep 2**
   
-2) Search for specific date
+     2) Search for **specific date**
 
-  program.exe -district "363" -date "11-05-2021"
+          C:\Users\rohan_pednekar\cowin>**program.exe -district "363" -date "11-05-2021"**
   
-3) Seach by pincode for tomorrows date
+     3) Search by pincode for **tomorrows date**
 
-  program.exe -district "0" -pin "411027"
+          C:\Users\rohan_pednekar\cowin>**program.exe -district "0" -pin "411027"**
   
   
   
