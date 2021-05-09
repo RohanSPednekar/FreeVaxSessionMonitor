@@ -4,7 +4,7 @@ Exe runs on windows. For Linux/Mac you need to build by installing GO first.(I m
 This program monitors the free sessions available by pincode or district wise. More details on how to run, are below. District code need to be taken. This program generates beep only for
 
          1) Vaccine session is available for given age. Default is 18+ but you can give option as 45 for 45+ search.
-         2) session must have capacity of does greater than 9. No point in booking if its less than 9.
+         2) session must have capacity of doses greater than 9. (observed some sessions with just 1 dose capacity and no point in generating alarm for the same)
 
 District codes
 pune : 363
