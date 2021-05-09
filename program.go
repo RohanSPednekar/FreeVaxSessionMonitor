@@ -21,22 +21,25 @@ const (
 	flagDate = "date"
 	flagSleepTime = "sleep"
 	flagBeepTime = "beep"
+	flagAge = "age"
 	sampleRate int = 44100
 	channelNum int = 2
 	bitDepthInBytes int = 2
 )
 
 var (
-	pinCode = flag.String(flagPinCode, "411027", "Area Pincode")
-	distCode = flag.String(flagDistrict, "363", "District code")
-	date = flag.String(flagDate, "09-05-2021", "Date to look at")
-	timeToSleep = flag.Int(flagSleepTime, 4, "Sleep time in seconds before trying out")
-	totalTimetoBeep = flag.Int(flagBeepTime, 10, "Time to Beep in Seconds")
+	pinCode = flag.String(flagPinCode, "411027", "Optional Area Pincode. If District code is given then this will be ignored.")
+	distCode = flag.String(flagDistrict, "363", "District code, default is Pune's code. Check Readme.md for district code of your choice.")
+	date = flag.String(flagDate, "tomorrow date", "Appointment Date in format DD-MM-YYYY.")
+	timeToSleep = flag.Int(flagSleepTime, 4, "Sleep time in seconds before trying out.")
+	totalTimetoBeep = flag.Int(flagBeepTime, 10, "Time to Beep in Seconds.")
+	ageLimit = flag.Int(flagAge, 18, "Age limit, For 45+ please give 45 and 18+ give 18.")
 )
 
 type Center struct {
 	Center_id int `json:"center_id"`
 	Name string `json:"name"`
+	Address string `json:"address"`
 	State_name string `json:"state_name"`
 	District_name string `json:"district_name"`
 	Block_name string `json:"block_name"`
@@ -213,25 +216,26 @@ func runCommand(url string) (err error, done bool) {
 			fmt.Println(err)
 			return
 		}
-		fmt.Println("sessions:=", sessions)
+		//fmt.Println("sessions:=", sessions)
 		
 		if len(sessions.Sessions) > 0 {
 		    for _,session := range sessions.Sessions {
-				if session.Min_age_limit == 18  && session.Available_capacity > 9 {
-				    fmt.Println(string(body))
-					fmt.Println("Registration is open for 18+..............")
+				fmt.Printf("Registration is open for %d+ at address: '%s', %d doses of %s vaccine are available at pincode: %d",
+					session.Min_age_limit, session.Address, session.Available_capacity, session.Vaccine, session.Pincode)
+				if session.Min_age_limit == *ageLimit && session.Available_capacity > 9 {
+				    // fmt.Println(string(body))
 					done = true
 					return
 				}
 			}
 			
 			done = false
-			fmt.Println("Registration is open for 45+..............")
-			fmt.Println(string(body))
+			// fmt.Println("Registration is open for 45+..............")
+			// fmt.Println(string(body))
 			return
 		}
 		done = false
-		fmt.Println("No luck..............", string(body))
+		fmt.Println("No luck..............trying again...")
 		return  
 }
 
@@ -245,12 +249,17 @@ func main() {
 		}
 		flag.Parse()
 		
-		if *date == "09-05-2021" {
+		if *date == "tomorrow date" {
 			// Get tomorrow's date
 			today := time.Now()
 			tomorrow := today.AddDate(0, 0, 1)
 			
 			*date = fmt.Sprintf("%02d-%02d-%04d", tomorrow.Day(), tomorrow.Month(), tomorrow.Year())
+		}
+		
+		if *ageLimit != 18 && *ageLimit != 45 {
+			fmt.Println("Please give age as 18 for 18+ and 45 for 45+.")
+			return
 		}
 		
 		var url string
@@ -260,12 +269,16 @@ func main() {
 			url = fmt.Sprintf("https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByDistrict?district_id=%s&date=%s", *distCode, *date)
 		}
 		
-		fmt.Println("Area Pin Code: ", *pinCode)
+		if *distCode == "0" {
+			fmt.Println("Area Pin Code: ", *pinCode)
+		}
 		fmt.Println("Appointmet Date: ", *date)
+		fmt.Println("Age Limit: ", *ageLimit)
+		fmt.Println("District code: ", *distCode)
 		fmt.Println("Sleep time between 2 requests: ", *timeToSleep)
 		fmt.Println("Time to Beep in Seconds: ", *totalTimetoBeep)
-		fmt.Println("District code: ", *distCode)
 		fmt.Println("Trying out at: ", url)
+		
 		done := false
 		var err error
 		
@@ -281,8 +294,9 @@ func main() {
 					return
 				}
 				done = false
+			} else {
+				time.Sleep(time.Duration(*timeToSleep) * time.Second)
 			}
-			time.Sleep(time.Duration(*timeToSleep) * time.Second)
 		}
 		
 		fmt.Println("Registrion is Open. I am leaving now.....Happy Vaccination!")
