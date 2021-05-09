@@ -4,7 +4,7 @@ This program monitors the free sessions available by pincode or district wise. D
 pune : 363
 Kolhapur: 371
 
-To get district code:
+## To get district code:
      1) First get state code by running: https://api.demo.co-vin.in/api/v2/admin/location/states in any browser. Note down state id. For Maharshtra it is 21
      2) Then get district code using https://api.demo.co-vin.in/api/v2/admin/location/districts/21. This is for maharshtra. Change state code accordingly in thus URL
 
