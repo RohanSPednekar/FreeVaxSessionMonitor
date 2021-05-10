@@ -225,7 +225,9 @@ func runCommand(url string) (err error, done bool) {
 		var sessions ResponseStr
 		err = json.Unmarshal(body, &sessions)
 		if err != nil {
-			fmt.Println(err)
+			fmt.Println("Error parsing response body: ", err.Error(), " sleeping for 20 seconds before retry...")
+			err = nil
+			time.Sleep(20 * time.Second)
 			return
 		}
 		//fmt.Println("sessions:=", sessions)
