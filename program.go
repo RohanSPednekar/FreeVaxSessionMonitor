@@ -232,7 +232,7 @@ func runCommand(url string) (err error, done bool) {
 		
 		if len(sessions.Sessions) > 0 {
 		    for _,session := range sessions.Sessions {
-				fmt.Printf("Registration is open for %d+ at address: '%s', %d doses of %s vaccine are available at pincode: %d",
+				fmt.Printf("Registration is open for %d+ at address: '%s', %d doses of %s vaccine are available at pincode: %d \n",
 					session.Min_age_limit, session.Address, session.Available_capacity, session.Vaccine, session.Pincode)
 				if session.Min_age_limit == *ageLimit && session.Available_capacity > 9 {
 				    // fmt.Println(string(body))
