@@ -205,9 +205,21 @@ func runCommand(url string) (err error, done bool) {
         req.Header.Add("accept-language", "hi_IN")
 		req.Header.Add("user-agent", "Rohan Pednekar")
 
-        res, _ := http.DefaultClient.Do(req)
-
-        defer res.Body.Close()
+        res, err := http.DefaultClient.Do(req)
+	if res == nil {
+	    err = fmt.Errorf("Please check internet connection or cowin site is unavailable")
+		fmt.Println("Error in connection: ", err.Error())
+		return
+	}
+	defer res.Body.Close()
+	if err != nil {
+		fmt.Println("Please check internet connection or cowin site is unavailable, error: ", err.Error())
+		return
+	}
+	if res.Body == nil {
+		err = fmt.Errorf("Please check internet connection or cowin site is unavailable")
+		fmt.Println("Error in connection: ", err.Error())
+	}
         body, _ := ioutil.ReadAll(res.Body)
 		
 		var sessions ResponseStr
