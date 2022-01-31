@@ -1,5 +1,5 @@
 # FreeVaxSessionMonitor
-Exe runs on windows on command line. For Linux/Mac you need to build by installing GO first.(I might upload exe for Linux tomorrow, not sure of MAC though. If anybody could help in doing that for Mac?) Rohan
+Exe runs on windows on command line. For Linux/Mac you need to build by installing GO first.(I might upload exe for Linux tomorrow, not sure of MAC though. If anybody could help in doing that for Mac?)
 
 **Please make sure your are connected to internet, otherwise this command line crashes as certian error handling is missing**
 
